@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Combinaciones Posibles</title>
+    <link rel="icon" href="estilos css/imagenes/Icono-web.svg">
+    
+    <script>
+        const c = console.log;
+    </script>
+
+    <link rel="stylesheet" href="estilos css/normalize.css">
+    <link rel="stylesheet" href="estilos css/estilos.css">
+
+        <template id="plantilla-permutaciones">
+            <details>
+                <summary>
+                    <h3></h3>
+                    <p></p>
+                    <img src="estilos css/imagenes/flecha-derecha-details.svg" width="22.5">
+                </summary>
+            </details>
+        </template>
+    
+        <template id="plantilla-permutaciones-dividido">
+            <details>
+                <summary>
+                    <h4></h4>
+                </summary>
+            
+            </details>
+        </template>
+    
+        <template id="plantilla-guardados">
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <ul>
+                    
+                    </ul>
+                    <p><span> </span> en Total</p>
+                </td>
+                <td>
+                    <img src="estilos css/imagenes/boton-imprimir.svg" width="25" class="boton-si-celda" alt="Imprimir estos datos.">
+                </td>
+                <td>
+                    <img src="estilos css/imagenes/boton-borrar.svg" width="25" class="boton-no-celda" alt="Borrar estos datos.">
+                </td>
+            </tr>
+        </template>
+
+</head>
+<body>
+
+
+<aside id="indice" class="display-none">
+    <ul>
+        <li><a href="#" target="_top">Subir</a></li>
+        <li><a href="#hr1">Bajar</a></li>
+    </ul>
+    <ul id="indice-contenido">
+
+    </ul>
+    <ul style="cursor: pointer;">
+        <li><a id="boton-2-1">Contraer</a></li>
+    </ul>
+</aside>
+
+<h1>Combinaciones Posibles de Distintos Elementos</h1>
+
+<nav>
+    Genere todas las combinaciones posibles de palabras proporcionadas. Ejemplo, tenemos "a", "b" y "c", le decimos que tenga un indice R de 3 y unas combinaciones posibles seria "aab", "bcb" o "cbd". 
+</nav>
+
+    <hr id="hr0">
+
+<main>
+    <section class="formulario">
+        <form action="#0" onsubmit="false" id="generador">
+            <fieldset>
+                <label for="elementosInput_N">Elementos N:</label>
+                <p class="comoIngresarDatos">Deben estar separados por espacios</p>
+                <p id="mostrarCantidadIngresada">Elementos ingresados: <span>0</span></p>
+                <textarea id="elementosInput_N" rows="4"></textarea>
+                    <p id="verificar_N" class="display-none">Debes ingresar almenos un item</p>
+            </fieldset>
+        
+            <fieldset>
+                <label for="elementoInput_R">Numero Elemento R:</label>
+                <input type="text" id="elementoInput_R">
+                    <div id="flechas">
+                        <svg id="flechaArriba" version="1.0"width="15pt"height="15pt"viewBox="0 0 512.000000 512.000000"preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"fill="#000000"stroke="none"><path d="M1277 2872 c-702 -702 -1277 -1281 -1277 -1287 0 -5 136 -146 302 -312 l303 -303 977 977 978 978 978 -978 977 -977 303 303 c166 166 302 307 302 312 0 10 -2550 2565 -2560 2565 -3 0 -580 -575 -1283 -1278z"/></g></svg>
+                        <svg id="flechaAbajo" version="1.0"width="15pt"height="15pt"viewBox="0 0 512.000000 512.000000"preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"fill="#000000"stroke="none"><path d="M302 3847 c-166 -166 -302 -307 -302 -312 0 -6 576 -586 1280 -1290 l1280 -1280 1280 1280 c704 704 1280 1284 1280 1290 0 5 -136 146 -302 312 l-303 303 -977 -977 -978 -978 -978 978 -977 977 -303 -303z"/></g></svg>
+                    </div>
+                    <p id="verificar_R" class="display-none">Debes ingresar un numero, minimo 1.</p>
+            </fieldset>
+        
+            <fieldset class="botonesForm">
+                    <button type="submit">Generar</button>
+                    <button type="reset" id="reiniciar">Resetear</button>
+            </fieldset>
+        </form>
+
+        <form action="#" onsubmit="false" id="localStorage">
+            <label for="nombre">Guardar Combinacion:</label>
+            <input type="text" placeholder="Nombre" id="nombre">
+            <button type="submit" id="guardar">Guardar</button>
+            <svg id="carpeta-localstorage" version="1.0" width="17pt" height="17pt"viewBox="0 0 512.000000 512.000000"preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"fill="#60a3bc" stroke="none"><path d="M446 4434 c-195 -47 -379 -230 -431 -430 -13 -51 -15 -233 -15 -1444 0 -1211 2 -1393 15 -1444 42 -160 169 -314 317 -385 46 -21 107 -44 136 -50 37 -8 523 -11 1601 -11 l1548 0 94 24 c175 45 337 135 448 249 33 34 242 286 465 561 491 604 503 625 494 818 -3 73 -10 105 -30 151 -51 110 -160 199 -298 243 -46 14 -107 18 -362 22 l-308 4 0 257 c0 284 -6 324 -63 441 -43 88 -168 213 -257 258 -137 69 -93 65 -957 69 l-783 4 0 87 c0 48 -7 114 -15 146 -53 202 -237 384 -436 431 -91 21 -1074 21 -1163 -1z m1118 -358 c22 -11 54 -35 72 -53 61 -60 67 -83 75 -258 3 -88 11 -171 17 -185 21 -52 70 -106 123 -135 l54 -30 845 -5 845 -5 47 -28 c26 -15 59 -43 74 -62 49 -64 53 -92 54 -342 l0 -232 -1082 -3 -1083 -4 -85 -23 c-179 -49 -349 -149 -462 -270 -35 -37 -207 -245 -383 -462 l-320 -395 -3 1135 c-1 625 0 1155 3 1177 11 79 80 156 170 191 22 9 160 11 515 10 457 -2 487 -3 524 -21z m3156 -1711 c57 -29 65 -79 23 -140 -58 -86 -825 -1025 -868 -1063 -25 -22 -78 -56 -118 -75 -144 -72 -28 -67 -1694 -67 -1357 0 -1506 2 -1543 16 -22 9 -40 17 -40 18 0 0 -4 16 -9 33 -8 27 -5 41 14 77 32 59 814 1025 873 1076 51 46 163 104 237 125 41 11 323 13 1573 14 1340 1 1527 -1 1552 -14z"/></g></svg>
+                <p id="verificar-localstorage" class="display-none">Debes ingresar almenos 2 caracteres.</p>
+        </form>
+    
+    </section>
+
+        <div id="guardados" class="display-none">
+            <table id="guardados_tabla">
+                <caption>Combinaciones Guardadas</caption>
+                <thead>
+                    <tr>
+                        <th>Nombre</th> 
+                        <th>R</th> 
+                        <th>N</th>
+                        <th colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    
+                </tbody>
+                <tr>
+                    <td class="limpiar-localStorage-td"><button id="limpiar-localStorage" type="button">Limpiar Tabla</button></td>
+                </tr>
+            </table>
+
+        </div>
+    
+
+    <h2 class="display-none">Numero de combinaciones posibles en total<br><span></span></h2>
+
+    <div id="botones" class="display-none">
+        <button id="boton-2">Contraer Todo</button>
+    </div>
+
+
+    <section id="contenedor" class="display-none">
+
+    </section>
+</main>
+
+<hr id="hr1">
+
+<footer>
+    <p>Iconos creados por <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> de <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
+    <p>Web creada por Tiago Pujia</p>
+</footer>    
+
+
+<script> document.querySelector('#flechaArriba').addEventListener('click',()=> document.querySelector('#elementoInput_R').value ++); document.querySelector('#flechaAbajo').addEventListener('click',()=> document.querySelector('#elementoInput_R').value --);</script>
+<script src="scripts js/asideAdapter.js"></script>
+<script src="scripts js/mostrarCantidadIngresada.js"></script>
+<script src="scripts js/localStorage.js"></script>
+<script src="scripts js/botonesDetails.js"></script>
+<script src="scripts js/nucleo-permutacionDatos.js"></script>
+<script src="scripts js/removeTextNode.js"></script>
+
+</body>
+</html>
+
